@@ -2,19 +2,22 @@
 
 :root {
   /* Base colors */
-  --black-primary: #0a0a0a;
-  --black-secondary: #171717;
-  --yellow-primary: #ffd700;
-  --yellow-secondary: #ffeb3b;
-  --yellow-accent: #fff176;
+  --primary-yellow: #FFE14F;
+  --primary-black: #1F2123;
+  --yellow-light: #FFF5B8;
+  --yellow-dark: #FFD700;
+  --black-light: #2A2D2F;
+  --black-dark: #18191A;
   
   /* Light theme */
-  --background: var(--yellow-primary);
-  --foreground: var(--black-primary);
-  --nav-bg: var(--black-primary);
-  --nav-text: var(--yellow-primary);
-  --accent: var(--yellow-secondary);
-  --hover: var(--yellow-accent);
+  --background: var(--primary-yellow);
+  --foreground: var(--primary-black);
+  --nav-bg: var(--primary-black);
+  --nav-text: var(--primary-yellow);
+  --accent: var(--yellow-dark);
+  --hover: var(--yellow-light);
+  --card-bg: var(--black-light);
+  --input-bg: var(--yellow-light);
 }
 
 @theme inline {
@@ -26,12 +29,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: var(--black-primary);
-    --foreground: var(--yellow-primary);
-    --nav-bg: var(--yellow-primary);
-    --nav-text: var(--black-primary);
-    --accent: var(--yellow-secondary);
-    --hover: var(--black-secondary);
+    --background: var(--primary-black);
+    --foreground: var(--primary-yellow);
+    --nav-bg: var(--primary-yellow);
+    --nav-text: var(--primary-black);
+    --accent: var(--yellow-dark);
+    --hover: var(--black-light);
+    --card-bg: var(--black-dark);
+    --input-bg: var(--black-light);
   }
 }
 
@@ -58,7 +63,7 @@ button:hover,
 input, 
 textarea, 
 select {
-  background-color: var(--background);
+  background-color: var(--input-bg);
   color: var(--foreground);
   border: 2px solid var(--foreground);
 }
