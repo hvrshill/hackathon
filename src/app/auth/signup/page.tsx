@@ -55,9 +55,9 @@ export default function SignUp() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--background)] p-4 sm:p-6 lg:p-8">
-      <div className="w-full max-w-md space-y-8 bg-[var(--card-bg)] p-6 sm:p-8 rounded-2xl shadow-xl">
-        <div>
-          <h2 className="text-center text-3xl font-bold text-[var(--foreground)]">
+      <div className="max-w-md w-full space-y-8 p-8 bg-[#ac712e] rounded-lg shadow-xl">
+        <div  >
+          <h2 className="text-center text-3xl font-bold text-[var(--foreground)] ">
             Create your account
           </h2>
           <p className="mt-3 text-center text-sm text-[var(--foreground)] opacity-80">
@@ -144,11 +144,11 @@ export default function SignUp() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border-2 border-transparent text-base font-medium rounded-lg text-[var(--nav-text)] bg-[var(--nav-bg)] hover:bg-[var(--hover)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center py-3 px-4 border-2 border-transparent text-base font-medium rounded-lg text-[#FFE14F] bg-[#4b3d22] hover:bg-[#ac712e] hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-[var(--nav-text)]" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-[#FFE14F]" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
