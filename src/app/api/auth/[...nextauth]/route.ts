@@ -1,4 +1,4 @@
-import { PrismaAdapter } from "@prisma/adapter-next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -15,7 +15,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
 }
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma) as any, // temporary type cast until we fix the adapter
+  adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
   session: {
@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          role: "USER", // default role for Google sign-in
+          role: "CLIENT" as const,
         };
       },
     }),
@@ -71,7 +71,8 @@ export const authOptions: NextAuthOptions = {
             id: user.id,
             email: user.email,
             name: user.name,
-            role: user.role || "USER",
+            image: user.image,
+            role: user.role,
           };
         } catch (error) {
           console.error("Auth error:", error);
@@ -88,18 +89,17 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account, profile }) {
       if (account?.provider === "google") {
         try {
-          // Check if user exists
           const existingUser = await prisma.user.findUnique({
             where: { email: user.email! },
           });
 
           if (!existingUser) {
-            // Create new user if doesn't exist
             await prisma.user.create({
               data: {
                 email: user.email!,
                 name: user.name,
-                role: "USER",
+                image: user.image,
+                role: "CLIENT",
               },
             });
           }
@@ -122,8 +122,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string;
-        session.user.role = token.role as string;
+        session.user.id = token.id;
+        session.user.role = token.role;
       }
       return session;
     },
