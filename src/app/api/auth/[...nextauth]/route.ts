@@ -16,7 +16,12 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -53,44 +58,44 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Invalid credentials");
           }
 
-          return user;
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+          };
         } catch (error) {
           console.error("Auth error:", error);
-          throw new Error("Authentication failed");
+          return null;
         }
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
   pages: {
     signIn: "/auth/signin",
     error: "/auth/error",
   },
   callbacks: {
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.role = token.role;
-      }
-      return session;
-    },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
       }
+      if (account) {
+        token.accessToken = account.access_token;
+      }
       return token;
     },
-  },
-  events: {
-    async error(error) {
-      console.error("NextAuth error:", error);
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
+      }
+      return session;
     },
   },
 };
 
 const handler = NextAuth(authOptions);
+
 export { handler as GET, handler as POST }; 
