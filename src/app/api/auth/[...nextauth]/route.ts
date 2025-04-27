@@ -6,8 +6,17 @@ import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
+if (!process.env.NEXTAUTH_SECRET) {
+  throw new Error("Please provide NEXTAUTH_SECRET environment variable");
+}
+
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+  throw new Error("Please provide Google OAuth credentials in environment variables");
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  debug: process.env.NODE_ENV === "development",
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -24,34 +33,41 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
+        try {
+          const user = await prisma.user.findUnique({
+            where: {
+              email: credentials.email,
+            },
+          });
 
-        if (!user || !user.password) {
-          throw new Error("Invalid credentials");
+          if (!user || !user.password) {
+            throw new Error("Invalid credentials");
+          }
+
+          const isCorrectPassword = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!isCorrectPassword) {
+            throw new Error("Invalid credentials");
+          }
+
+          return user;
+        } catch (error) {
+          console.error("Auth error:", error);
+          throw new Error("Authentication failed");
         }
-
-        const isCorrectPassword = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isCorrectPassword) {
-          throw new Error("Invalid credentials");
-        }
-
-        return user;
       },
     }),
   ],
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
     signIn: "/auth/signin",
+    error: "/auth/error",
   },
   callbacks: {
     async session({ session, token }) {
@@ -67,6 +83,11 @@ export const authOptions: NextAuthOptions = {
         token.role = user.role;
       }
       return token;
+    },
+  },
+  events: {
+    async error(error) {
+      console.error("NextAuth error:", error);
     },
   },
 };
