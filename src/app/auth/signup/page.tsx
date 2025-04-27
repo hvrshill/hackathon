@@ -6,6 +6,7 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useApi } from "@/lib/hooks/useApi";
 
 const signUpSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -15,6 +16,11 @@ const signUpSchema = z.object({
 });
 
 type SignUpForm = z.infer<typeof signUpSchema>;
+
+interface RegistrationResponse {
+  success: boolean;
+  message: string;
+}
 
 export default function SignUp() {
   const router = useRouter();
@@ -29,24 +35,17 @@ export default function SignUp() {
     resolver: zodResolver(signUpSchema),
   });
 
+  const { post } = useApi<RegistrationResponse>();
+
   const onSubmit = async (data: SignUpForm) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error("Registration failed");
+      const response = await post("/api/auth/register", data);
+      if (!response.error) {
+        router.push("/auth/signin");
       }
-
-      router.push("/auth/signin");
     } catch (error) {
       setError("Registration failed. Please try again.");
     } finally {
