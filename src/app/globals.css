@@ -2,20 +2,26 @@
 
 :root {
   /* Base colors */
-  --primary-yellow: #FFE14F;
-  --primary-black: #1F2123;
-  --yellow-light: #FFF5B8;
-  --yellow-dark: #FFD700;
+  --primary-yellow: #5e4469;
+  --primary-black: #201818;
+  --yellow-light: #000000;
+  --yellow-dark: #dd3737;
   --black-light: #2A2D2F;
-  --black-dark: #18191A;
+  --black-dark: #7dbb3f;
+  
+  /* Text colors */
+  --nav-text: #27272b;        /* Navigation text color */
+  --body-text: #000000;       /* Main body text color */
+  --heading-text: #333333;    /* Heading text color */
+  --link-text: #525961;       /* Link text color */
+  --button-text: #FFFFFF;     /* Button text color */
   
   /* Light theme */
   --background: var(--primary-yellow);
   --foreground: var(--primary-black);
-  --nav-bg: var(--primary-black);
-  --nav-text: var(--primary-yellow);
+  --nav-bg: #ac712e;          /* Navigation background color */
   --accent: var(--yellow-dark);
-  --hover: var(--yellow-light);
+  --hover: #27272b;
   --card-bg: var(--black-light);
   --input-bg: var(--yellow-light);
 }
@@ -31,8 +37,12 @@
   :root {
     --background: var(--primary-black);
     --foreground: var(--primary-yellow);
-    --nav-bg: var(--primary-yellow);
-    --nav-text: var(--primary-black);
+    --nav-bg: var(#ac712e);
+    --nav-text: #000000;      /* Dark theme navigation text */
+    --body-text: #FFFFFF;     /* Dark theme body text */
+    --heading-text: #CCCCCC;  /* Dark theme heading text */
+    --link-text: #e5e1bd;     /* Dark theme link text */
+    --button-text: #000000;   /* Dark theme button text */
     --accent: var(--yellow-dark);
     --hover: var(--black-light);
     --card-bg: var(--black-dark);
@@ -40,17 +50,27 @@
   }
 }
 
+/* Apply text colors */
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--body-text);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Common elements styling */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-text);
+}
+
+a {
+  color: var(--link-text);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
 button, 
 .button {
   background-color: var(--nav-bg);
-  color: var(--nav-text);
+  color: var(--button-text);
   transition: all 0.3s ease;
 }
 
@@ -64,17 +84,11 @@ input,
 textarea, 
 select {
   background-color: var(--input-bg);
-  color: var(--foreground);
+  color: var(--body-text);
   border: 2px solid var(--foreground);
 }
 
 /* Links styling */
-a {
-  color: var(--foreground);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
 a:hover {
   color: var(--accent);
 }

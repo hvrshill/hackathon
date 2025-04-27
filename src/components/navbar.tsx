@@ -46,7 +46,7 @@ export function Navbar() {
                 </Link>
                 <button
                   onClick={() => signOut()}
-                  className="bg-[var(--black-secondary)] text-[var(--yellow-primary)] px-4 py-2 rounded-md hover:bg-[var(--hover)] hover:text-[var(--black-primary)] transition-all duration-300"
+                  className="bg-[var(--hover)] text-white px-4 py-2 rounded-md hover:bg-[#27272b] transition-all duration-300"
                 >
                   Sign Out
                 </button>
@@ -61,7 +61,7 @@ export function Navbar() {
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="bg-[var(--black-secondary)] text-[var(--yellow-primary)] px-4 py-2 rounded-md hover:bg-[var(--hover)] hover:text-[var(--black-primary)] transition-all duration-300"
+                  className="bg-[var(--hover)] text-white px-4 py-2 rounded-md hover:bg-[#27272b] transition-all duration-300"
                 >
                   Sign Up
                 </Link>
