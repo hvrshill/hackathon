@@ -9,17 +9,17 @@ export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-white shadow-sm">
+    <nav className="bg-[var(--nav-bg)] shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-xl font-bold text-gray-800">
+          <Link href="/" className="text-xl font-bold text-[var(--nav-text)] hover:text-[var(--hover)]">
             WorkerConnect
           </Link>
 
           <div className="flex items-center space-x-4">
             <Link
               href="/jobs"
-              className={`text-gray-600 hover:text-gray-900 ${
+              className={`text-[var(--nav-text)] hover:text-[var(--hover)] transition-colors ${
                 pathname === "/jobs" ? "font-semibold" : ""
               }`}
             >
@@ -27,7 +27,7 @@ export function Navbar() {
             </Link>
             <Link
               href="/workers"
-              className={`text-gray-600 hover:text-gray-900 ${
+              className={`text-[var(--nav-text)] hover:text-[var(--hover)] transition-colors ${
                 pathname === "/workers" ? "font-semibold" : ""
               }`}
             >
@@ -35,18 +35,18 @@ export function Navbar() {
             </Link>
 
             {status === "loading" ? (
-              <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse" />
+              <div className="w-8 h-8 bg-[var(--hover)] rounded-full animate-pulse" />
             ) : session ? (
               <div className="flex items-center space-x-4">
                 <Link
                   href="/dashboard"
-                  className="text-gray-600 hover:text-gray-900"
+                  className="text-[var(--nav-text)] hover:text-[var(--hover)] transition-colors"
                 >
                   Dashboard
                 </Link>
                 <button
                   onClick={() => signOut()}
-                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                  className="bg-[var(--black-secondary)] text-[var(--yellow-primary)] px-4 py-2 rounded-md hover:bg-[var(--hover)] hover:text-[var(--black-primary)] transition-all duration-300"
                 >
                   Sign Out
                 </button>
@@ -55,13 +55,13 @@ export function Navbar() {
               <div className="flex items-center space-x-4">
                 <Link
                   href="/auth/signin"
-                  className="text-gray-600 hover:text-gray-900"
+                  className="text-[var(--nav-text)] hover:text-[var(--hover)] transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                  className="bg-[var(--black-secondary)] text-[var(--yellow-primary)] px-4 py-2 rounded-md hover:bg-[var(--hover)] hover:text-[var(--black-primary)] transition-all duration-300"
                 >
                   Sign Up
                 </Link>
