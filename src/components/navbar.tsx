@@ -12,8 +12,8 @@ export function Navbar() {
     <nav className="bg-[var(--nav-bg)] shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-xl font-bold text-[var(--nav-text)] hover:text-[var(--hover)]">
-            WorkerConnect
+          <Link href="/" className="text-2xl font-bold text-[var(--nav-text)] hover:text-[var(--hover)]">
+           Sahayak
           </Link>
 
           <div className="flex items-center space-x-4">
